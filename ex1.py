@@ -98,7 +98,7 @@ def run_training(args, train_ds, eval_ds, tokenizer, data_collator):
 def run_prediction(args, test_ds, data_collator):
     """Loads a fine-tuned model and generates predictions.txt for the test set."""
     model = AutoModelForSequenceClassification.from_pretrained(args.model_path)
-
+    model.eval()
     # Using Trainer.predict is more efficient (supports batching) than a for-loop
     predict_args = TrainingArguments(output_dir="./temp", per_device_eval_batch_size=args.batch_size, report_to="none")
     trainer = Trainer(model=model, args=predict_args, data_collator=data_collator)
